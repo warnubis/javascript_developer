@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<script src="jquery-3.2.1.min.js"></script>
+	<script>
+	//console.log( jQuery, $ );
+// $(...) -> jQuery-Objekt
+
+// $( CSS-Selector als String )
+// $( HTML-NodeElement )
+
+$( document ).ready(function() {
+// window.onload = function() {
+
+
+	console.log( $( '#absatz')[0] );
+	console.log( $( document.getElementById('absatz') )[0] );
+
+	//document.getElementById( 'absatz' ).innerHTML = 'neuer Inhalt';
+	//$( '#absatz' )[0].innerHTML
+	$( '#absatz').html( 'neuer Inhalt mit jQuery');
+
+	console.log( $( '.absatz' ).length );
+
+	$( '.absatz')[0].innerHTML = 'A1';
+	$( '.absatz')[1].innerHTML = 'A2';
+
+	$( '.absatz').html( 'neuer Inhalt mit jQuery');
+
+	$( '.absatz').eq(1).html( 'neuer Inhalt mit haha jQuery');
+
+	$( 'p').eq(2).html( 'neuer Inhalt für nummer 3');
+
+	$( 'p.absatz + p').html( 'neuer Inhalt für wen?');
+
+	$ ( 'p' ).css( 'font-size', '24px' );
+	$ ( 'p:nth-child(2n+1)' ).css( 'color', 'red' );
+
+	$( 'p' ).css( {
+		'font-size':'24px',
+		color:'red',
+		backgroundColor:'#ccc',
+		width:200
+	} );
+
+	$( 'p' ).addClass('gruen');
+	$( 'p' ).addClass('arial');
+
+	$( 'p' ).removeClass( 'absatz' );
+
+	$( '.absatz' ).html( 'Hallo Welt!' ); // wírft keinen Fehler wenn es keine Ergebnisse gibt
+
+	/*$( 'p' ).click( function() {
+		//$( this ).toggleClass( 'gruen' );
+		$( 'p' ).show();
+		$( this ).hide();
+	});*/
+
+	// method-chaining
+	$( 'p' )
+	.css({border:'1px solid #000'})
+	.html( 'SU<b>P</b>ER' )
+	.click( function() {
+		//$( this ).toggleClass( 'gruen' );
+		$( 'p' ).show();
+		$( this ).hide();
+	})
+	.mouseover(function() {
+		$(this).css({background: 'transparent'})
+	});
+
+	// $(...) => jQuery Objekte
+	//jQueryMethode .html( ) => jQuery-Objekt
+
+	// transparente jQuery Methode => Rückgabe selbes Objekte
+	// .html() .css() .addClass()
+
+	// destruktive jQuery Methoden => Rückgabe jQuery Objekt aber mit anderem Inhalt
+	$('p').find( 'b' ).css({color:'red'});
+
+	// terminierende jQUery Methode => Liefert kein jQuery Objekt
+	// $( 'p' ).get(0);
+	var eingabe = $( 'input' ).val();
+
+	// erzeuge neue Elemente
+	//document.createElement('div')
+	$( '<div>' )
+	.html('alles neu')
+	.addClass('arial')
+	.appendTo('body');
+
+	$( '<div>' )
+	.html('alles neu')
+	.addClass('arial')
+	.prependTo('p');
+
+});
+	</script>
+	<style>
+
+	.gruen {color:green !important;}
+
+	.arial {font-family: Arial;}
+
+	</style>
+</head>
+<body>
+		<p class="absatz" id="absatz">Das ist ein Absatz.</p>
+		<p class="absatz">2. Absatz</p>
+		<p>3. Absatz</p>
+		Gib was ein: <input type="text"><button>Klick mich</button>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <script src="wifi_funktionen.js"></script>
+  <script>
+var ziffer, counter = 0;
+  window.onload = function() {
+
+
+        e('eingabe').onclick = function( event ) {
+          event.preventDefault();
+        ziffer = e('num').value * 1;
+        console.log(ziffer);
+        if (ziffer != 0){
+        while (ziffer % 2 == 0) {
+          ziffer /= 2;
+          console.log(ziffer);
+          counter += 1;
+        }
+
+        e('ausgabe').innerHTML = 'anzahl der Divisionen ist ' + counter;
+      }
+      else e('ausgabe').innerHTML = '0 kann man nicht teilen du Depp!!!!';
+
+      counter = 0;
+  }
+
+}
+
+
+  </script>
+  <style>
+  </style>
+</head>
+<body>
+<form>
+  <input id="num" type="text" /> Zahl<br />
+  <button id="eingabe">neue Werte eingeben</button><br />
+</form>
+<div id="ausgabe">
+
+</div>
+</body>
+</html>

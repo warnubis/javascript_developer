@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <script src="jquery-3.2.1.min.js"></script>
+  <script src="jquery_meinplugin.a.js"></script>
+  <script src="format_number.1.js"></script>
+  <script>
+$( document ).ready(function() {
+
+  //$('p:last-child').red().html('haha');
+
+  //$('p').colorize({r:255, b:255});
+  //$('p:last-child').colorize();
+
+  $('p' ).formatNumbers();
+});
+  </script>
+  <style>
+  </style>
+</head>
+<body>
+  <p>Absatz 1</p>
+  <p class="nocolorize">Absatz 2</p>
+  <p>Absatz 3</p>
+
+</body>
+</html>

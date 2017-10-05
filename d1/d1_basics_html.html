@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+  <title>HTML Basics D1</title>
+  <meta charset="utf-8">
+
+
+
+  <script src="basics_html_d1.js">
+  /*
+  ladet externes JS-File
+  Schließendes Tag ist Pflicht
+  Rest im Tag wird überschrieben
+  Zusätzliches Script braucht eigenes Tag
+  */
+  </script>
+
+  <script>
+  alert('HAHA'); // Öffnet Box mit Meldung. Stoppt das Script, kein weiteres laden vor OK
+  console.log('grias di!'); //Ausgabe in der Konsole
+  </script>
+
+  <style>
+
+  p {
+    display:inline;
+    margin:0;
+    font: 20px Arial;
+  }
+
+  #absatz {
+    color:orange;
+  }
+
+  #wort {
+    cursor:pointer; /* Ändert Mauszeiger in Hand */
+  }
+
+</style>
+</head>
+<body>
+
+  <p id="absatz"><!-- ID muss absolut Einmalig sein! -->
+  Hallo Welt!
+  </p>
+
+</body>
+</html>

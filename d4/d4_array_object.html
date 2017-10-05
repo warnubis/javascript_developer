@@ -1,0 +1,249 @@
+<!doctype html>
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <script src="wifi_funktionen.js"></script>
+  <script>
+  // Array erstellen: zahlen = new Array() oder zahlen = []
+  // zahlen[0]=5
+  // zahlen[zahlen.length] = 8, an letzte Stelle einfügen.
+  // Alternative: zahlen.push(8);
+  // zahlen[2] = []; zahlen[2][0]=7
+  // zahlen.splice(zahlen.indexOf( value), 1);
+
+  // document.getElementsByTagName('nav').getElementsByTagName('li') - LIs im Nav
+  // document.getElementsById('tabnav').getElementsByTagName('li') - LIs im DIV 'Tabnav'
+
+  var alleBenutzer = [];
+
+window.onload = function() {
+  var changeToScreen = function(seite) {
+      reset();
+      changeElement(0, true);
+
+      getTagA(0).parentNode.className= 'active';
+
+  }
+
+  var getTagA = function(number) {
+      return document.getElementsByTagName('a')[number];
+  }
+
+  var reset = function(){
+    getTagA(0).parentNode.className= '';
+    getTagA(1).parentNode.className= '';
+    getTagA(2).parentNode.className= '';
+    changeElement(0, false);
+    changeElement(1, false);
+    changeElement(2, false);
+  }
+
+  var changeScreen = function(num) {
+
+    reset();
+    getTagA(num).parentNode.className= 'active';
+    changeElement(num, true);
+
+  }
+
+
+  var ausgabeText = function( text ) {
+    var ausgabe = document.createElement( 'p' );
+    ausgabe.innerHTML = text;
+    ausgabe.id = 'status';
+    e('saveForm').appendChild( ausgabe);
+  }
+
+
+
+  changeToScreen(); // beim laden
+
+  getTagA(0).onclick = function( event ) {
+    changeScreen(0);
+
+  }
+  getTagA(1).onclick = function( event ) {
+    changeScreen(1);
+
+  }
+  getTagA(2).onclick = function( event ) {
+    changeScreen(2);
+
+  }
+
+
+
+
+
+
+    e('saveForm').onsubmit = function( event ) { // this. == e('saveForm').
+      event.preventDefault();
+      var neuerBenutzer = {};
+      var countError= 0;
+      if (e('vorname').value != '') {
+        neuerBenutzer.vornamen = e('vorname').value;
+      }
+      else {
+        e('vorname').className = 'red';
+        countError++;
+      }
+      if (e('nachname').value != '') {
+      neuerBenutzer.nachname = e('nachname').value;
+    }
+    else {
+      e('nachname').className = 'red';
+      countError++;
+    }
+      if (e('email').value != '') {
+      neuerBenutzer.email = e('email').value;
+    }
+    else {
+      e('email').className = 'red';
+      countError++;
+    }
+
+    if ( countError != 0){
+        ausgabeText('Fehler in der Eingabe');
+        
+    }
+    else {
+      alleBenutzer.push( neuerBenutzer);
+      ausgabe = ausgabeText('Daten gespeichert');
+
+    }
+
+
+      resetStatus();
+      console.log( alleBenutzer );
+
+      var ausgabe = document.createElement( 'p' );
+      ausgabe.innerHTML = 'Benutzer gespeichert';
+      ausgabe.id = 'status';
+
+
+      //e('saveForm').appendChild( ausgabe);
+      //e('input').appendChild( ausgabe);
+      e('vorname').value = e('nachname').value = e('email').value = '';
+    }
+
+    var resetStatus = function() {
+      if ( e('status') )
+      e('saveForm').removeChild(e('status'));
+    }
+    // onblur = Verlassen eines feldes!
+    e('vorname').onfocus = resetStatus();
+    e('nachname').onfocus = resetStatus();
+    e('email').onfocus = resetStatus();
+
+}
+
+
+  </script>
+  <style>
+html {
+  font-size:20px;
+  }
+
+  body {
+    background:#ccc;
+    padding:20px;
+  }
+
+  body, input, button, select, textarea {
+    font-family: Arial;
+  }
+
+  nav > ul {
+    list-style-type: none;
+    margin:0;
+    padding:0;
+
+
+  }
+
+  nav li {
+    /*display:inline-block;*/
+    float:left;
+    border: 1px solid #000;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    position: relative;
+    top:1px;
+
+  }
+
+  nav ul::after {
+    content: '';
+    display: block;
+    clear: left;
+  }
+
+  nav a {
+    text-decoration: none;
+    color:#000;
+    display: block;
+    padding: 10px 20px;
+  }
+
+  nav li:hover, nav li.active {
+    background:#fff;
+    border-bottom-color: #fff;
+  }
+
+  .page {
+    border:1px solid #000;
+    width: 400px;
+    height: 300px;
+    padding:20px;
+    background: #fff;
+    font-size: 1.25em;
+    display: none;
+  }
+
+  .page-visible {display:block;}
+
+  button {
+    font-size: 1.25rem;
+  }
+
+
+  label {
+    width:140px;
+    display: inline-block;
+  }
+
+  .red {
+    border: 2px solid red;
+  }
+
+
+  </style>
+</head>
+<body>
+<nav>
+  <ul>
+    <li><a href="#" data-page="home">Home</a></li>
+    <li><a href="#" data-page="input">Eingabe</a></li>
+    <li><a href="#" data-page="output">Ausgabe</a></li>
+  </ul>
+</nav>
+
+<section class="page" id="0">
+  <h1>Hello Userverwaltung</h1>
+</section>
+<section class="page" id="1">
+  <form action="?" method="post" id="saveForm">
+    <label>Vorname: </label><input type="text" id="vorname" ><br>
+    <label>Nachname: </label><input type="text" id="nachname" ><br>
+    <label>Email: </label><input type="text" id="email" ><br>
+    <button>Speichern</button>
+  </form>
+
+</section>
+<section class="page" id="2"></section>
+
+
+</body>
+</html>

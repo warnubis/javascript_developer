@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <script src="wifi_funktionen.js"></script>
+  <script>
+  // Array erstellen: zahlen = new Array() oder zahlen = []
+  // zahlen[0]=5
+  // zahlen[zahlen.length] = 8, an letzte Stelle einfügen.
+  // Alternative: zahlen.push(8);
+  // zahlen[2] = []; zahlen[2][0]=7
+  // zahlen.splice(zahlen.indexOf( value), 1);
+
+  var alleBenutzer = [];
+
+window.onload = function() {
+    e('saveForm').onsubmit = function( event ) {
+      event.preventDefault();
+      var neuerBenutzer = [];
+      neuerBenutzer ['vornamen'] = e('vorname').value;
+      neuerBenutzer ['nachname'] = e('nachname').value;
+      neuerBenutzer ['email'] = e('email').value;
+      alleBenutzer.push( neuerBenutzer);
+      console.log( alleBenutzer );
+    }
+
+
+}
+
+
+  </script>
+  <style>
+
+
+  </style>
+</head>
+<body>
+  <form action="?" method="post" id="saveForm">
+    Vorname: <input type="text" id="vorname" ><br>
+    Nachname: <input type="text" id="nachname" ><br>
+    Email: <input type="text" id="email" ><br>
+    <button>Speichern</button>
+  </form>
+</body>
+</html>

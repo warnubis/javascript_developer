@@ -1,0 +1,225 @@
+<!doctype html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<script>
+	var voc = [
+			['dog','Hund'],
+			['cat','Katze'],
+			['snake','Schlange'],
+			['lion','Löwe'],
+			['mouse','Maus'],
+			['bug','Käfer'],
+			['ant','Ameise'],
+			['horse','Pferd'],
+	    ['cow','Kuh'],
+	    ['sheep','Schaf']
+		];
+var karte_id, versuche = [], counter=0;
+
+var e = function( idElement){
+  return document.getElementById( idElement);
+}
+
+var erschaffeSpielfeld = function() {
+	for (i = 0; i<20; i++){
+			karte = document.createElement('div');
+			karte.className = 'flipper';
+			karte.id = 'flip' + i;
+			e( 'game' ).appendChild( karte );
+
+		}
+
+			werteVerteilen();
+			//karte_id = 'flip' + i;
+			kartenRuecken();
+
+}
+
+var animiereKarten = function() {
+	var m=1, wert1 = 0, wert2= 0, feedback, numW1, numW2;
+	for (i = 0; i<20; i++){
+		kartenId = 'flip' + i;
+		e(kartenId).onclick = function() {
+			//e('flip1').className = 'flipper flipped';
+			this.setAttribute( 'class', this.className != 'flipper flipped' ? 'flipper flipped' : 'flipper' );
+
+			if (wert1 != 0) {
+				wert2 = this.getElementsByTagName('div')[0].innerHTML;
+				numW2 = this.getElementsByTagName('div')[0].id;
+			}
+			else {
+				wert1 = this.getElementsByTagName('div')[0].innerHTML;
+						numW1 = this.getElementsByTagName('div')[0].id;
+					}
+			m = m + 1;
+			if (m == 3) {
+				feedback = vergleicheWerte(wert1, wert2);
+				console.log(feedback);
+				if(feedback == 0) {
+
+					var ani = setTimeout ( nix, 1500);
+
+					m=1;wert1 = 0; wert2= 0;
+				}
+				else {
+					versuche.push(numW1);
+					versuche.push(numW2);
+					e(numW1).className = 'gruen';
+					e(numW2).className = 'gruen';
+					m=1;wert1 = 0; wert2= 0;numW1 = 0; numW2 = 0;
+
+				}
+			}
+		}
+	}
+}
+
+var werteVerteilen = function() {
+		z = 0, kID = [];
+		kID = randArray(20);
+		for (j=0; j < 10; j++){
+			for (k=0; k<2; k++){
+
+				front = document.createElement('div');
+				front.id = z;
+				front.innerHTML = voc[j][k];
+				pos = 'flip' + kID[z];
+				e( pos ).appendChild( front );
+				z= z +1;
+			}
+		}
+
+}
+
+	var nix = function() {
+		kartenUmdrehen( versuche );
+		console.log('nix');
+	}
+
+	var kartenRuecken = function() {
+		for (i = 0; i<20; i++){
+			karte_id = 'flip' + i;
+			back = document.createElement('div');
+			back.innerHTML = 'BACK';
+			e( karte_id ).appendChild( back );
+		}
+	}
+
+	var shuffleArray = function(array) {
+  var tmp, current, top = array.length;
+  if(top) while(--top) {
+    current = Math.floor(Math.random() * (top + 1));
+    tmp = array[current];
+    array[current] = array[top];
+    array[top] = tmp;
+  }
+  return array;
+}
+
+var randArray = function(num) {
+	for (a=[],i=0;i<num;++i) a[i]=i;
+	return shuffleArray(a);
+
+}
+
+ var vergleicheWerte = function(wort1, wort2) {
+	 var num1, num2, fb;
+	 console.log(wort1);
+	 console.log(wort2);
+	 for (j=0; j < 10; j++){
+		 for (k=0; k<2; k++){
+				if (wort1 == voc[j][k]) {
+					num1 = j;
+				break;
+			}
+		 }
+	 }
+
+	 for (j=0; j < 10; j++){
+		 for (k=0; k<2; k++){
+				if (wort2 == voc[j][k]) {
+					num2 = j;
+				break;
+			}
+		 }
+	 }
+
+	 if ( num1 == num2) {
+			fb = 1;
+			counter = counter + 1;
+			e('ausgabe').innerHTML = 'Aktuelle Anzahl der Versuche: ' + counter;
+	 }
+		else {
+			fb = 0;
+			counter = counter + 1;
+			e('ausgabe').innerHTML = 'Aktuelle Anzahl der Versuche: ' + counter;
+		}
+		return fb;
+ }
+
+ var kartenUmdrehen = function(array) {
+	 console.log(array);
+			var karID;
+		for (i = 0; i<20; i++){
+			karId = 'flip' + i;
+			e(karId).className = 'flipper';
+		}
+		for (j = 0; j<array.length; j++){
+			karId = array[j];
+			//x =d.getElementsByTagName('div')[0].id;
+
+			e(karId).parentNode.className = 'flipper flipped';
+		}
+
+ }
+
+window.onload = function() {
+		erschaffeSpielfeld();
+		animiereKarten();
+		e('ausgabe').innerHTML = 'Aktuelle Anzahl der Versuche: ' + counter;
+		console.log(voc);
+
+
+		e('neues-spiel').onclick = function() {
+			e('game').innerHTML = '';
+			versuche = []; counter = 0;
+			erschaffeSpielfeld();
+			animiereKarten();
+			e('ausgabe').innerHTML = 'Aktuelle Anzahl der Versuche: ' + counter;
+		}
+
+
+
+	}
+</script>
+	<style>
+		#game { width:600px; border:1px solid #000; padding:1px; background:#ddd; font-family:Arial; }
+		#game .flipper { float:left;width:100px; height:100px; position:relative; margin:10px; }
+		#game .flipper div { transition:transform 1s; position:absolute; top:0; left:0; backface-visibility: hidden; width:100px; height:100px; border:1px solid #000; background:#fff; text-align:center; line-height:95px; }
+		#game::after { content:''; display:block; clear:left;  }
+		#game .flipper { perspective: 1000; }
+		#game div > div:nth-child(1) { transform: rotateY(180deg); }
+		#game div > div:nth-child(2) { transform: rotateY(0deg); background:#aaa; color:#fff;  }
+		#game div.flipped { }
+		#game div.flipped  > div:nth-child(1) { transform: rotateY(0deg); }
+		#game div.flipped  > div:nth-child(2) { transform: rotateY(180deg); }
+		#game div.done > div:nth-child(1)  { transition:all 0.5s; background-color: green; transform:rotateY(0deg) scale(0.9); }
+		#game .flipper div.gruen {background: green; color:white;}
+		#ausgabe {margin-left: 630px;margin-top: -460px;position: relative;}
+		button {margin-top:20px;}
+		</style>
+</head>
+<body>
+	<div id="game">
+		<!-- Inhalte dynamisch erzeugen
+		<div class="flipper">
+			<div>FRONT</div>
+			<div>BACK</div>
+		</div>-->
+	</div>
+	<button id="neues-spiel">neues Spiel starten</button>
+	<div id="ausgabe"></div>
+</body>
+</html>

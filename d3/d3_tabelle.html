@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+  <script src="wifi_funktionen.js"></script>
+	<script>
+  window.onload = function() {
+    var i, html, table, tr, td, summe = 0, sum = 0, btn;
+		zahlen = [];
+
+		var deleteValueFromArray = function( val ) {
+				for (i=0; i<zahlen.length; i++) {
+					if (zahlen[i] == val){
+						// Wert löschen und ende
+						zahlen.splice(i, 1);
+						//return; // beendet Funktion
+						break; // beendet Schleife
+					}
+				}
+		}
+
+	var zufallsZahl = function(von, bis) {
+			random = Math.floor(Math.random() * (bis - von) + 1) + von;
+			return random;
+
+	}
+
+	var starteZiehung = function( ) {
+		var kont = 0, neueZahl;
+		neueZahl = zufallsZahl(1,45);
+		for (k=1; k<46; k++) {
+				if(e(k).className == 'grey fett'){
+					e(k).className = 'grey';
+				}
+				else if (e(k).className == ' fett' || e(k).className == 'fett'){
+					e(k).className = '';
+				}
+
+			//e(k).classList.remove('fett');
+
+	}
+			random= [];
+			for(i=0; i<6;i++){
+				haha = Math.floor(Math.random() * 45 + 1);
+
+				for(p=0; p<6;p++){
+					if (random[p]!= haha){
+						kont += 1;
+					}
+					else break;
+
+				}
+
+			if (kont == 6){
+				random[i]= haha;
+				console.log(random[i]);
+
+				for (j=1; j<46; j++) {
+				if(e(j).innerHTML == random[i]) {
+					console.log('red');
+					e(j).className += ' fett';
+				}
+			}
+			}
+			else i--;
+
+
+			}
+
+	}
+
+		table = document.createElement( 'table' );
+		table.setAttribute( 'border',1 );
+
+		e( 'ausgabe' ).appendChild( table );
+
+		/*tr = document.createElement( 'tr' );
+
+		td = document.createElement( 'td' );
+		tr.appendChild( td );*/
+
+		//table.appendChild( tr );
+
+		for ( i=1; i<=45; i++ ) {
+
+			if ( i % 6 == 1) {
+				tr = document.createElement( 'tr' );
+				table.appendChild( tr );
+			}
+			td = document.createElement( 'td' );
+			td.setAttribute('id', i);
+			td.onclick = function() {
+				 //this.setAttribute( 'class', this.className != 'grey' ? 'grey' : ''); alternative für die IF abfrage. Summenabfrage wird trotzdem benötigt
+				if (this.className == '' && summe < 6) { // Alternative: this.getAttribute( 'class' )
+				this.setAttribute('class', 'grey'); // this : Element bei dem der Event-Handler ausgelöst wurde
+
+				summe =summe + 1;
+
+				zahlen.push(this.innerHTML * 1);
+				if ( summe == 6){
+					btn = document.createElement('button');
+					btn.innerHTML = 'Ziehung starten';
+					btn.onclick = starteZiehung;
+					e('ausgabe').appendChild( btn );
+				}
+			}
+			else if (this.className == '' && summe == 6) {
+				sum = 0;
+				for ( k=0; k<6; k++ ){
+					sum = sum + zahlen[k];
+				}
+				alert('Du kannst nur ' + summe + 'Felder einfärben. Die Summe der markierten Werte ist ' + sum);
+
+			}
+
+			else {
+				this.setAttribute('class', '');
+				summe-=1;
+				deleteValueFromArray(this.innerHTML * 1);
+
+				e('ausgabe').removeChild( btn );
+
+				// return; beendet eine Funktion
+			}
+			console.log(summe);
+			console.log(zahlen);
+			};
+
+			td.innerHTML = i;
+			tr.appendChild( td );
+
+		}
+
+  }
+
+	</script>
+	<style>
+body { /* dadurch ist kein markieren möglich */
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+  div > div {
+    display:inline-block; width:50px; height:50px; border:1px solid #000; margin:10px;
+  }
+	/*div:nth-child(2n) { background:#aaa; }  jedes nte wird nur angewendet, 2n +1 verschiebt den beginn der Zählweise*/
+  .grey { background:#aaa; }
+
+	.fett {color:red;font-weight: bold;}
+
+	td {cursor: pointer; height:30px; width:30px; vertical-align: middle;text-align: center;}
+	</style>
+</head>
+<body>
+<div id="ausgabe"></div>
+
+<div id="ausgabeSumme"></div>
+
+</body>
+</html>

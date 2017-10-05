@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <script>
+
+  // Hier deklarierte Variablen sind global (so wenige wie möglich verwenden!!)
+
+  window.onload = function() { // führt erst aus wenn Seite ganz geladen ist
+
+    document.getElementById( 'btn' ).onclick = function( event ) {
+
+      // 1. Variablen
+      var zahl1, zahl2, summe, ausgabeText; // lokale Variablen
+
+      // 2. Eingabe
+      zahl1 = document.getElementById('z1').value * 1;
+      zahl2 = document.getElementById('z2').value * 1;
+      // Variable * 1 => automatische Typumwandlung in Number
+
+      // 3. Verarbeitung
+      // Umwandlung String => Zahl
+      // ohne Umwandlung immer String
+      //zahl1 = parseFloat(zahl1);
+      //zahl2 = parseFloat(zahl2);
+      //zahl1 = zahl1 * 1;
+      //zahl2 = zahl2 * 1;
+
+      summe = zahl1 + zahl2;
+      ausgabeText = zahl1 + ' + ' + zahl2 + ' = ' + '<span id="summe"';
+      if (summe < 0){
+      //summe = '<span class="erg">' + summe + '</span>';
+      ausgabeText += 'class="erg">';
+      }
+
+      ausgabeText +=  summe + '</span>';
+
+      // alternative zu Z1 = Z1 + Iwas => Z1 += Iwas
+
+
+      // 4. Ausgabe
+      document.getElementById('ausgabe').innerHTML = 'Die Summe ist: <span id="summe">' + summe + '</span>';
+      document.getElementById('ausgabe1').innerHTML = 'Die Summe ist: <b>' + summe + '</b>';
+      document.getElementById('ausgabe2').innerHTML = ausgabeText; // Zusatzaufgabe: aus Variable: Z1 + Z2 = S
+
+      event.preventDefault(); /* verhindert Standartfunktion Formular absenden.
+      immer als erse Zeile, damit eventuelle Fehler in der Konsole bleiben */
+
+    } // onclick
+
+  } // onload
+
+
+  </script>
+  <style>
+  #summe {
+    font-weight: bold;
+    font-size: 2em;
+  }
+
+  .erg {color:red;}
+
+  #ausgabe1 b {font-size: 2em;}
+  </style>
+</head>
+<body>
+<h1>Addieren</h1>
+<form method="post" action="?">
+  Zahl 1: <input type="text" id="z1"><br />
+  Zahl 2: <input type="text" id="z2"><br />
+  <button id="btn">Summe berechnen</button>
+</form>
+<div id="ausgabe"></div>
+<div id="ausgabe1"></div>
+<div id="ausgabe2"></div>
+</body>
+</html>

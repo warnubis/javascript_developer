@@ -1,0 +1,203 @@
+<!doctype html>
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8">
+
+
+
+  <script>
+
+  var hideElement = function( idElement) {
+    document.getElementById(idElement).className = 'page';
+  }
+
+  var showElement = function( idElement) {
+    document.getElementById(idElement).className = 'page visible';
+  }
+
+  var changeElement = function ( idElement, visible) {
+    if (visible) {
+      showElement(idElement);
+    }
+    else hideElement(idElement);
+  }
+
+  var changeToInputScreen = function() {
+      changeElement('spiel-start', true);
+      changeElement('spiel-action', false);
+      changeButton(0);
+  }
+
+  var e = function( idElement){
+    return document.getElementById( idElement);
+  }
+
+  var feedbackText = function( text, help ) {
+      if (help == 1){
+        return e('ausgabe2').innerHTML += text;
+      }
+      else {
+        return e('ausgabe2').innerHTML = text;
+      }
+
+  }
+
+  var schwierigkeitErmitteln = function(number, schwer) {
+
+    if (number == 0) {
+      return e('variante').value * 1;
+    }
+    else {
+      switch (schwer) {
+        case 10:
+        return 25
+        break;
+        case 25:
+        return 50
+        break;
+        case 50:
+        return 100
+        break;
+      }
+
+    }
+
+  }
+
+  var changeButton = function(z) {
+
+    if (z == 1) {
+    e('neuerWert').className = 'hidden';
+    e('naechsteSchwierigkeit').className = 'visible';
+  }
+  else {
+    e('neuerWert').className = 'visible';
+    e('naechsteSchwierigkeit').className = 'hidden';
+  }
+  }
+
+  var spielDurchfuehrung = function(difficult, help, count) {
+    random = Math.floor(Math.random() * difficult + 1);
+    console.log(help);
+    console.log(random);
+        changeElement('spiel-start', false);
+        changeElement('spiel-action', true);
+        document.getElementById('eingabe').value = '';
+
+        e('ausgabe1').innerHTML = 'Die gewählte Schwierigkeit ist: 1 - ' + difficult;
+        e('ausgabe2').innerHTML = ' ';
+        e('spielen').onsubmit = function( event ) {
+          event.preventDefault();
+          versuch = e('eingabe').value * 1;
+
+
+
+          if (versuch == random) {
+              count += 1;
+             feedbackText('<br>Du hast die Zahl erraten!<br>Du hast dafür ' + count + ' versuche benötigt', help);
+             changeButton(1);
+             if (difficult == 100){
+              e('naechsteSchwierigkeit').className = 'hidden';
+               e('ausgabe2').innerHTML = 'Sie haben die haben die höchste Schwierigkeitsstufe gemeistert!!<br>Danke fürs spielen!';
+             }
+             else {
+
+           }
+          }
+          else if (versuch < random) {
+            feedbackText('<br>Ihre Zahl ' + versuch + ' ist zu niedrig', help);
+            count += 1;
+          }
+          else {
+            feedbackText('<br>Ihre Zahl ' + versuch + ' ist zu hoch', help);
+            count += 1;
+          }
+
+
+          }
+    return count;
+  }
+
+  window.onload = function() {
+
+  var schwierigkeit, random, versuch, hilfe, zaehler = 0 * 1;
+
+  changeToInputScreen();
+
+  e('spiel-beginnen').onclick = function( event ) {
+    event.preventDefault();
+
+    schwierigkeit = schwierigkeitErmitteln(0, schwierigkeit);
+    hilfe = e('hilfe').value;
+    zaehler = spielDurchfuehrung(schwierigkeit, hilfe, zaehler);
+
+    }
+
+    e('naechsteSchwierigkeit').onclick = function (event) {
+      event.preventDefault();
+      schwierigkeit = schwierigkeitErmitteln(1, schwierigkeit);
+      hilfe = e('hilfe').value;
+      zaehler = spielDurchfuehrung(schwierigkeit, hilfe, zaehler);
+    }
+
+  e('neues-spiel').onclick = changeToInputScreen;
+  }
+
+  </script>
+  <style>
+
+  .page {
+    display: none;
+    width:600px;
+    height:400px;
+    border: solid 1px #000;
+    margin:10px;
+    padding:10px;
+    border-radius: 10px;
+  }
+
+  .visible {display:block;}
+  .hidden {display: none;}
+
+  button {cursor: pointer;}
+
+
+  </style>
+</head>
+<body>
+  <section id="spiel-start" class="page">
+
+    <form action="?">
+      <select name="variante" id="variante">
+        <option value="10" selected>1 - 10</option>
+        <option value="25">1 - 25</option>
+        <option value="50">1 - 50</option>
+        <option value="100">1 - 100</option>
+      </select><br>
+      <p> mit Hilfe spielen?</p>
+      <select name="hilfe" id="hilfe">
+        <option value="0" selected>nein</option>
+        <option value="1">ja</option>
+      </select>
+      <button id="spiel-beginnen">Spiel beginnen</button>
+    </form>
+
+
+  </section>
+
+  <section id="spiel-action" class="page">
+    <p>Bitte einen Wert eingeben um zu spielen. Mögliche Ergebnisse sind zu hoch, zutief und genau richtig!</p>
+  <form action="?" id="spielen">
+    Wert eingeben: <input type="text" id="eingabe" autocomplete="off">
+
+  <div id="ausgabe1"></div><br>
+  <div id="ausgabe2"></div><br>
+  <button id="neuerWert">neue Werte eingeben</button>
+  <button id="naechsteSchwierigkeit">Mit höherer Schwierigkeit starten</button>
+  <br><br>
+  <button id="neues-spiel">neue Spiel starten</button>
+
+  </section>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!doctype html>
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <script>
+
+  var checkEingabe = function( wert ) {
+    // Wert muss größer sein als null und darf nicht NaN sein
+    if ( wert < 1 || isNaN( wert ) == true) {
+      return false;
+    }
+    else {
+      return true;
+    }
+    // Rückgabe ok (true/false)
+
+  }
+
+  var eingabeKorrekt = function ( feld ) {
+    var i = document.getElementById( feld ).value * 1;
+
+    if (!checkEingabe(i)){
+      document.getElementById(feld).className = 'error';
+      return false;
+      }
+      else return true;
+  }
+
+  var hideElement = function( idElement) {
+    document.getElementById(idElement).className = 'page';
+  }
+
+  var showElement = function( idElement) {
+    document.getElementById(idElement).className = 'page page-visible';
+  }
+
+  var changeElement = function ( idElement, visible) {
+    if (visible) {
+      showElement(idElement);
+    }
+    else hideElement(idElement);
+  }
+
+  var changeToInputScreen = function() {
+      document.getElementById('feldCM').value = '';
+      document.getElementById('feldKG').value = '';
+
+      //document.getElementById( 'page-ausgabe' ).className = 'page';
+      //document.getElementById( 'page-eingabe' ).className = 'page page-visible';
+      changeElement('page-eingabe', true);
+      changeElement('page-ausgabe', false);
+  }
+
+  var e = function( idElement){
+    return document.getElementById( idElement);
+  }
+
+  window.onload = function() {
+    //document.getElementById( 'page-eingabe' ).style.display = 'block';
+    //changeElement( 'page-eingabe', true );
+    changeToInputScreen();
+
+    document.getElementById('btn-ausgabe').onclick = function( event ) {
+        event.preventDefault();
+
+
+        var groesseCM, gewichtKG, bmi, bottom, left;
+
+        document.getElementById('feldCM').className = '';
+        document.getElementById('feldKG').className = '';
+
+        if (!eingabeKorrekt('feldCM') && !eingabeKorrekt('feldKG')){
+
+
+        }
+
+
+
+        //groesseCM = document.getElementById('feldCM').value * 1;
+        //gewichtKG = document.getElementById('feldKG').value * 1;
+
+        // Überprüfung auf Eingabefehler, kleiner 1 oder keine Zahl
+
+        /*if (!checkEingabe(groesseCM) || !checkEingabe(gewichtKG)){
+          if ( !checkEingabe(groesseCM) ) {
+          document.getElementById('feldCM').className = 'error';
+          }
+          if ( !checkEingabe(gewichtKG) ) {
+          document.getElementById('feldKG').className = 'error';
+          }
+        }*/
+        else {
+          groesseCM = document.getElementById('feldCM').value * 1;
+          gewichtKG = document.getElementById('feldKG').value * 1;
+          // alles OK
+          bmi = gewichtKG / Math.pow(groesseCM/100, 2);
+          bmi = Math.round(bmi*10)/10; // auf 1 Nachkommerstelle Runden
+
+          bottom = (gewichtKG * 3) - 80; // errechnen der spezifischen Koordinaten, minus der Pixel bis zum Rand
+          bottom += 'px';
+          left = (groesseCM * 10) - 1591; // errechnen der spezifischen Koordinaten, minus der Pixel bis zum Rand
+          left += 'px';
+
+          //document.getElementById( 'page-eingabe' ).className = 'page';
+          //document.getElementById( 'page-ausgabe' ).className = 'page page-visible';
+          changeElement('page-eingabe', false);
+          changeElement('page-ausgabe', true);
+
+          document.getElementById( 'cross' ).style.bottom = bottom;
+          document.getElementById( 'cross' ).style.left = left;
+
+          document.getElementById( 'ausgabe' ).innerHTML = 'Dein BMI ist: ' + bmi;
+        }
+
+
+    }
+
+    document.getElementById('btn-eingabe').onclick = changeToInputScreen;
+    // z.B. onclick: functions ohne Klammern!!
+  }
+  /*
+  ELEMENT.Listener = Funktion
+  */
+
+
+
+  </script>
+  <style>
+  .page {
+    display: none;
+    width:600px;
+    height:400px;
+    border: solid 1px #000;
+    margin:10px;
+    padding:10px;
+    border-radius: 10px;
+  }
+
+  .page-visible {display:block;}
+
+  form {padding:50px;line-height: 2;}
+
+  button {cursor: pointer;}
+
+  button::after {content:''; display:inline-block;width: 0;height: 0;border-width: 5px 0 5px 8px;
+  border-style: solid;border-color: transparent;border-left-color: black; margin-left: 10px;}
+
+  button:hover::after {border-left-color: red;}
+
+  .error {background: red; color: white;}
+
+  #bmi-tabelle {position: relative;width: 496px;
+height: 301px;}
+  #bmi-tabelle #bmi {z-index: 10; position: absolute;}
+
+  #bmi-tabelle #cross {z-index: 50;bottom:31px;margin-left: 50px; }
+
+  #cross{
+    background: #000;
+    width: 3px;
+    height: 20px;
+    position: absolute;
+
+    transform: rotate(45deg);
+    z-index: 50;
+}
+
+#cross:before{
+  background: #000;
+  content: "";
+  width: 20px;
+  height: 3px;
+  position: absolute;
+  top: 9px;
+  left: -8px;
+}
+  </style>
+</head>
+<body>
+<section id="page-eingabe" class="page">
+
+  <form action="?">
+    <input type="text" id="feldCM" autocomplete="off"> Größe (in cm)<br>
+    <input type="text" id="feldKG" autocomplete="off"> Gewicht (in KG)<br>
+    <button id="btn-ausgabe">BMI-Berechnen</button>
+  </form>
+
+
+</section>
+
+<section id="page-ausgabe" class="page">
+
+<div id="bmi-tabelle">
+  <img src="bmi_tabelle.gif" id="bmi">
+  <div id="cross">
+  </div>
+</div>
+<div id="ausgabe"></div><br>
+<button id="btn-eingabe">neue Werte eingeben</button>
+
+</section>
+
+
+
+</body>
+</html>

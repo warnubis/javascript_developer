@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8">
+
+  <script src="wifi_funktionen.js"></script>
+
+  <script>
+
+  var getNumber = function( idElement) {
+    var value;
+    // Nummer einlesen, Kommer ersetzen und in Zahl umwandeln
+    value = e(idElement).value;
+    value = value.replace(',', '.') * 1;
+    return value;
+
+  }
+
+  var printNumber = function ( number ) {
+    number = Math.round( number * 100) / 100;
+    number += ''; // number -> string, ALT: number.toString()
+    number = number.replace('.', ',');
+    return number;
+  }
+
+  var wechselkursAlt = function( neukurs ) {
+    var w1, w2;
+    w1 = e('waehrung1').value;
+    w2 = e('waehrung2').value;
+    if (w1 == 'eur' && w2 == 'usd') kurs = neukurs;
+    else if (w2 == 'eur' && w1 == 'usd') kurs = 1 / neukurs;
+
+    else e( 'error' ).innerHTML = 'Die Währungen sind identisch';
+    return kurs;
+  }
+
+
+
+  window.onload = function() {
+
+    var options;
+
+    options = '<option value="1">EUR</option>';
+    options +='<option value="1.2">USD</option>';
+    options +='<option value="1.17">CHF</option>';
+    e('waehrung1').innerHTML = options;
+    e('waehrung2').innerHTML = options;
+    // 2. Selectfeld soll USD selected sein
+    e('waehrung2').getElementsByTagName( 'option' )[1].selected = true;
+
+    e('umrechnen').onkeyup = function( event ) { //onsubmit
+    event.preventDefault();
+
+    var kurs = e('waehrung2').value / e('waehrung1').value, menge1, menge2;
+
+    menge1 = getNumber('feldW1');
+
+    e('feldW2').value = printNumber(menge1 * kurs);
+
+
+        }
+      }
+  </script>
+  <style>
+  </style>
+</head>
+<body>
+  <form action="?" id="umrechnen">
+    <input type="text" id="feldW1" autocomplete="off">
+
+    <select name="waehrung1" id="waehrung1">
+
+</select>
+
+    <input type="text" id="feldW2" autocomplete="off">
+
+    <select name="waehrung2" id="waehrung2">
+
+</select>
+
+<!--<select name="waehrung1" id="waehrung1">
+  <option value="eur" selected>EUR</option>
+  <option value="usd">USD</option>
+  <option value="chf">CHF</option>
+</select>
+
+<input type="text" id="feldW2" autocomplete="off">
+
+<select name="waehrung2" id="waehrung2">
+  <option value="usd" selected>USD</option>
+  <option value="eur">EUR</option>
+  <option value="chf">CHF</option>
+</select>-->
+    <button>Umrechnen</button>
+  </form>
+  <div id="error"></div>
+</body>
+</html>

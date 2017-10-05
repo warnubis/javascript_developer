@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <script>
+  window.onload = function() { // führt erst aus wenn Seite ganz geladen ist
+      document.getElementById('z1').value = '';
+      document.getElementById('gesch').value = '';
+      document.getElementById('z1').focus();
+
+    document.getElementById( 'btn' ).onclick = function( event ) {
+
+      // 1. Variablen
+      var zahl1, gesch, ausgabeText; // lokale Variablen
+
+      // 2. Eingabe
+      zahl1 = document.getElementById('z1').value * 1;
+      gesch = document.getElementById('gesch').value;
+      //gesch2 = document.getElementById('z3').value;
+      // Variable * 1 => automatische Typumwandlung in Number
+
+      // 3. Verarbeitung
+
+
+      if ( zahl1 == false) {
+        ausgabeText = 'Kein Alter angegeben!!';
+        if ( gesch == false) {
+            ausgabeText += '<br />Kein Geschlecht angegeben!!';
+          }
+        else if (gesch != 'M' && gesch != 'W') {
+          ausgabeText += '<br />Geschlecht muss M oder W sein!!';
+        }
+        else {
+
+        }
+      }
+      else {
+        if (Number.isInteger(zahl1) == true){
+
+        }
+        else {
+          ausgabeText = 'Alter muss eine Zahl sein';
+          console.log(ausgabeText)
+        }
+        if ( gesch == false) {
+          ausgabeText += '<br />Kein Geschlecht angegeben!!';
+        }
+        else if (gesch != 'M' && gesch != 'W') {
+            ausgabeText += '<br />Geschlecht muss M oder W sein!!';
+          }
+
+        }
+
+
+
+      if (zahl1 != false && (gesch == 'M' || gesch == 'W')){
+
+        if ( zahl1 > 18) {
+          if ( gesch == 'M'){
+            ausgabeText = 'Mann';
+
+          }
+          else {
+            ausgabeText = 'Frau';
+
+          }
+        }
+        else if ( zahl1 < 19){
+          if ( gesch == 'M'){
+            ausgabeText = 'Bub';
+
+          }
+          else {
+            ausgabeText = 'Mädchen';
+
+          }
+        }
+      }
+
+
+
+      document.getElementById('ausgabe').innerHTML = ausgabeText;
+
+
+      event.preventDefault();
+
+    } // onclick
+
+  } // onload
+  </script>
+  <style>
+  </style>
+</head>
+<body>
+  <h1>Übung 1</h1>
+  <form method="post" action="?">
+    Alter: <input type="text" id="z1"><br />
+    Geschlecht (M/W): <input type="text" id="gesch"><br /><br />
+    <!--<input type="radio" id="z2" name="gender" value="M"> männlich<br />
+    <input type="radio" id="z3" name="gender" value="W"> weiblich<br />-->
+    <button id="btn">Ergebnis zeigen</button>
+  </form>
+  <div id="ausgabe"></div>
+</body>
+</html>

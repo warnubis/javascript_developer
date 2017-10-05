@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <script src="jquery-3.2.1.min.js"></script>
+  <script>
+
+var erschaffeSpielfeld = function() {
+    var wuerfelId=0;
+    for (i=0; i<5; i++){
+      $('<div id="wuerfel' + i + '" class="wuerfel">').appendTo('#spielfeld');
+      $('<img src="wuerfel/wuerfel1cols5.jpg">').appendTo('#wuerfel' + i);
+    }
+
+  }
+
+  var wuerfeln = function() {
+    var x=0;
+    for (j=0; j<5; j++){
+      x = Math.floor((Math.random() * 6) + 1);
+      $('#wuerfel' + j).attr('src') = 'wuerfel/wuerfel' + x +'cols5.jpg';
+    }
+
+  }
+
+$( document ).ready(function() {
+
+  erschaffeSpielfeld();
+
+  $('#wurfeln').click() = function( event ) {
+      event.preventDefault();
+      wuerfeln();
+  };
+
+
+
+});
+  </script>
+  <style>
+  #spielfeld {
+    width:510px;
+    height:100px;
+    border:1px solid #000;
+
+  }
+  .wuerfel { width:82px; height:82px; background:grey; margin:10px; display:inline-block; }
+  </style>
+</head>
+<body>
+<div id="spielfeld"></div>
+<button id="wurfeln">neu würfeln</button>
+</body>
+</html>
