@@ -7,6 +7,11 @@
 	<script>
 ;(function() {
 	"use strict";
+
+	window.alert = function(s) {
+		console.log(s); // änder die Ausgabe von Alert zur Console
+	}
+
 	var randy = function(a,b){ return Math.floor(
 		Math.random()*(b-a+1) ) +a; }
 
@@ -31,7 +36,7 @@
 			wuerfel[index] = $(this).hasClass('fixiert')? z : 0; // wenn klasse gesetzt dann speichern sonst 0
 			//alert(z);
 		}); // click
-	}(zufall, i)); // iife - erlaubt das erhalten der Schleifenwerte
+	}(zufall, i)); // iife - erlaubt das erhalten der Schleifenwerte, erzeugt eigenständige Variablen mit gleichem Namen
 	} // for
 
 

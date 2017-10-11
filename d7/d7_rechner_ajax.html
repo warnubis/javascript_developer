@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <script src="jquery-3.2.1.min.js"></script>
+  <script>
+  // https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml
+  ;(function() {
+    "use strict";
+    var rates = new Array(); //globale Arrays
+var currencies = new Array();
+
+$( document ).ready(function() {
+  var summe, kurs=0;
+  $('#eingabe').html(0);
+
+  $.ajax({
+    //url:'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml',
+    url:'http://wifi.1av.at/507/ecb.php',
+    method: 'GET',
+    dataType: 'xml',
+    success: function(data) {
+      //console.log(data);
+       $(data).find('Cube[currency]').each(function(index, value) {
+         rates[index] = $(this).attr('rate');
+         currencies[index] = $(this).attr('currency');
+         //console.log(rates[index]);
+         $('<option>').attr('value', rates[index]).html(currencies[index]).appendTo('select');
+       });
+
+    }
+  });
+    var rechnen = function() {
+      var ausgabe;
+      summe = ($('#eingabe').val())*1;
+      kurs = $('#currency').val();
+    console.log(summe);
+    console.log(kurs);
+    ausgabe = summe * kurs;
+    ausgabe = Math.round( ausgabe * 100) / 100;
+      $('#ausgabe').html(ausgabe);
+    }
+
+    $(document).on('keyup keydown', '#eingabe', function() {
+      rechnen();
+    });
+
+  $(document).on('change', '#currency', function() {
+      rechnen();
+  });
+
+  });
+
+  }());
+  </script>
+  <style>
+  html {font-size: 2em;}
+  </style>
+</head>
+<body>
+  <input type="text" id="eingabe">
+  <select id="currency">
+    <option> bitte wählen</option>
+
+    </select>
+
+    <div id="ausgabe"></div>
+</body>
+</html>
