@@ -38,7 +38,11 @@ $( document ).ready(function() {
          rate = $(this).attr('rate');
          curr = $(this).attr('currency');
          //console.log(rates[index]);
-         $('<option>').attr('value', rate).html(curr).appendTo('select'); // Options für das Select erzeugen
+         $('<li>').appendTo('ul>li>ul');
+        $('<a href="#">').attr('value', rate).html(curr).on('click', function() {
+          $('body>ul>li>a').html($(this).html()).attr('value',$(this).attr('value'));
+          $('ul>li>ul').css('display', 'none');
+        }).appendTo('ul>li>ul>li:last-child'); // Options für das Select erzeugen
        });
 
     }
@@ -46,9 +50,9 @@ $( document ).ready(function() {
     var rechnen = function() {
       var ausgabe;
       summe = ($('#eingabe').val())*1;
-      kurs = $('#currency').val();
+      kurs = $('#currency>li>a').attr('value');
     //console.log(summe);
-    //console.log(kurs);
+    console.log(kurs);
     ausgabe = summe * kurs; // Kurs berechnen
     ausgabe = Math.round( ausgabe * 100) / 100; // Runden auf 2 Stellen
       $('#ausgabe').html(ausgabe);
@@ -62,20 +66,47 @@ $( document ).ready(function() {
       rechnen();
   });
 
+  $(document).on('mouseenter', 'body>ul>li>a', function() {
+    $('ul>li>ul').css('display', 'block');
+  });
+
+
+  $(document).on('mouseleave', 'body>ul>li', function() {
+    $('ul>li>ul').css('display', 'none');
+  });
+
   });
 
   }());
   </script>
   <style>
   html {font-size: 2em;}
+  body { font:20px Arial; line-height:1.2; }
+	body>ul { list-style:none; padding:0px; border: 1px solid #000; border-radius: 5px; display: inline-block; }
+	body>ul>li { display:inline-block; position:relative;width: 150px;
+text-align: center;}
+	a { display:block; text-decoration:none; padding:5px 15px;
+		font-weight:bold; color:#000; }
+	li:hover > a { background:#000; color:#fff;  }
+	ul ul { display:none; position:absolute; padding:0;
+		top:calc(1.2em + 10px);
+		 left:5px; border: 1px solid #000; }
+	ul ul li { display:block; width: 140px;
+text-align: center;}
+	ul li:hover ul { display:block; }
+	ul li a:hover + ul { display:block; }
   </style>
 </head>
 <body>
   <h2>Umrechner von Euro</h2>
   <input type="text" id="eingabe">
-  <select id="currency">
-    <option> bitte wählen</option>
+  <ul>
+    <li><a href="#"> bitte wählen</a>
+      <ul id="currency">
 
+      </ul>
+  </li>
+</ul>
     </select>
 
     <div id="ausgabe"></div>
