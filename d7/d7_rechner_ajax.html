@@ -35,10 +35,10 @@ $( document ).ready(function() {
        $(data).find('Cube[currency]').each(function(index, value) {
          // rates[index] = $(this).attr('rate');
          // currencies[index] = $(this).attr('currency');
-         rate = $(this).attr('rate');
-         curr = $(this).attr('currency');
+         //rate = $(this).attr('rate');
+         //curr = $(this).attr('currency');
          //console.log(rates[index]);
-         $('<option>').attr('value', rate).html(curr).appendTo('select'); // Options für das Select erzeugen
+         $('<option>').attr('value', $(this).attr('rate')).html($(this).attr('currency')).appendTo('select'); // Options für das Select erzeugen
        });
 
     }
@@ -49,18 +49,15 @@ $( document ).ready(function() {
       kurs = $('#currency').val();
     //console.log(summe);
     //console.log(kurs);
-    ausgabe = summe * kurs; // Kurs berechnen
-    ausgabe = Math.round( ausgabe * 100) / 100; // Runden auf 2 Stellen
+
+    ausgabe = Math.round( summe * kurs* 100) / 100; // Rechnen + Runden auf 2 Stellen
       $('#ausgabe').html(ausgabe);
     }
 
-    $(document).on('keyup keydown', '#eingabe', function() { // soll schon direkt bei der eingabe rechnen
-      rechnen();
-    });
+    $(document).on('keyup change', '#eingabe', rechnen ); // soll schon direkt bei der eingabe rechnen
+    $(document).on('change', '#currency', rechnen ); // soll rechnen sobald eine Währung ausgewählt wird
 
-  $(document).on('change', '#currency', function() { // soll rechnen sobald eine Währung ausgewählt wird
-      rechnen();
-  });
+
 
   });
 

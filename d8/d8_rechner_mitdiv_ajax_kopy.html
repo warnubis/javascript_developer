@@ -42,7 +42,6 @@ $( document ).ready(function() {
         $('<a href="#">').attr('value', rate).html(curr).on('click', function() {
           $('body>ul>li>a').html($(this).html()).attr('value',$(this).attr('value'));
           $('ul>li>ul').css('display', 'none');
-          rechnen();
         }).appendTo('ul>li>ul>li:last-child'); // Options für das Select erzeugen
        });
 
@@ -51,10 +50,12 @@ $( document ).ready(function() {
     var rechnen = function() {
       var ausgabe;
       summe = ($('#eingabe').val())*1;
-      kurs = $('#qw').attr('value');
-      var wah = $('body>ul>li>a').html();
-    //console.log(summe);
+      kurs = $('body>ul>li>a').attr('value');
+       var wah = $('body>ul>li>a').html();
+
+    console.log(summe);
     console.log(kurs);
+
     ausgabe = summe * kurs; // Kurs berechnen
     ausgabe = Math.round( ausgabe * 100) / 100; // Runden auf 2 Stellen
       $('#ausgabe').html(ausgabe);
@@ -81,10 +82,13 @@ $( document ).ready(function() {
       rechnen();
     });
 
+  $(document).on('change', $('body>ul>li>a').attr('value'), function() { // soll rechnen sobald eine Währung ausgewählt wird
+      rechnen();
+  });
+
   $(document).on('mouseenter', 'body>ul>li>a', function() {
     $('ul>li>ul').css('display', 'block');
   });
-
 
 
   $(document).on('mouseleave', 'body>ul>li', function() {
@@ -106,7 +110,7 @@ text-align: center;}
 	li:hover > a { background:#000; color:#fff;  }
 	ul ul { display:none; position:absolute; padding:0;
 		top:calc(1.2em + 10px);
-		 left:5px; border: 1px solid #000; background: #fff;}
+		 left:5px; border: 1px solid #000; }
 	ul ul li { display:block; width: 140px;
 text-align: center;}
 	ul li:hover ul { display:block; }
@@ -117,7 +121,7 @@ text-align: center;}
   <h2>Umrechner von Euro</h2>
   <input type="text" id="eingabe">
   <ul>
-    <li><a href="#" id="qw"> bitte wählen</a>
+    <li><a href="#"> bitte wählen</a>
       <ul id="currency">
 
       </ul>
