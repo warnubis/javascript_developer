@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <script src="jquery-3.2.1.min.js"></script>
+
+  <script>
+  ;(function() {
+    "use strict";
+
+    var text = " +++ Sport: Nachricht1 +++ Politik: Nachricht 2 +++ ";
+    var begin = 0;
+    var end = text.length;
+
+    function lauftext()
+{
+ document.getElementsByName("newsticker")[0].value = "" +
+ text.substring(begin,end) + " " + text.substring(0,begin);
+ begin ++;
+ if(begin >= end)
+ {
+  begin = 0;
+ }
+ window.setTimeout(lauftext, 50);
+}
+
+$( document ).ready(function() {
+  lauftext();
+});
+
+
+  }());
+
+  </script>
+  <style>
+  </style>
+</head>
+<body>
+  <p>Aktuelle Nachrichten:</p>
+  <input type="text" name="newsticker">
+</body>
+</html>

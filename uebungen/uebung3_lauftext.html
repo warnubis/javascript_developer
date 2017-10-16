@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <script src="jquery-3.2.1.min.js"></script>
+  <script src="laufschrift.1.js"></script>
+  <script>
+  ;(function() {
+    "use strict";
+
+    // https://www.a-coding-project.de/ratgeber/javascript/beispiele/laufschriften-auf-webseiten
+
+    $( document ).ready(function() {
+      //console.log(plz);
+      //console.log(ort);
+      $(document).on('change', '#newsticker', function() {
+
+      $('<div>').newsticker();
+    });
+
+
+
+
+    });
+
+
+  }());
+
+  </script>
+  <style>
+  </style>
+</head>
+<body>
+  <p>Aktuelle Nachrichten:</p>
+  <input type="text" id="newsticker">
+</body>
+</html>
