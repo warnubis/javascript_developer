@@ -9,20 +9,20 @@
   ;(function() {
     "use strict";
 
-    var text = " +++ Sport: Nachricht1 +++ Politik: Nachricht 2 +++ ";
+    var text = 'haha';
     var begin = 0;
     var end = text.length;
 
-    function lauftext()
+     var lauftext = function()
 {
- document.getElementsByName("newsticker")[0].value = "" +
- text.substring(begin,end) + " " + text.substring(0,begin);
+ $('#newsticker').val("" +
+ text.substring(begin,end) + " " + text.substring(0,begin));
  begin ++;
  if(begin >= end)
  {
   begin = 0;
  }
- window.setTimeout(lauftext, 50);
+ setTimeout(lauftext, 500);
 }
 
 $( document ).ready(function() {
@@ -38,6 +38,6 @@ $( document ).ready(function() {
 </head>
 <body>
   <p>Aktuelle Nachrichten:</p>
-  <input type="text" name="newsticker">
+  <input type="text" id="newsticker">
 </body>
 </html>
