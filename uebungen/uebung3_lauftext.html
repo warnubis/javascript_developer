@@ -13,7 +13,10 @@
 
     $( document ).ready(function() {
 
+    $(document).on('click', '#start', function(){
       $('input').newsticker();
+    });
+
 console.log('haha');
 
 
@@ -31,5 +34,6 @@ console.log('haha');
 <body>
   <p>Aktuelle Nachrichten:</p>
   <input type="text" id="newsticker">
+  <button id="start">start</button>
 </body>
 </html>
