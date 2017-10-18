@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+  <title>OOP</title>
+  <meta charset="utf-8">
+  <script src="jquery-3.2.1.min.js"></script>
+  <script>
+
+  // Objekte
+
+  var o = {
+    farbe:'rot',
+    fahren:function() {
+      K('blau',100);
+    }
+  };
+
+  var farbeAusgabe = function() {
+    console.log('Das Fahrrad ist: ' + this.farbe);
+  }
+
+  // Konstruktor-Funktion
+  var K = function(a, b) {
+    this.farbe = a;
+    this.preis = b;
+    this.textFahrrad = function() {
+      console.log('Das Fahrrad kostet. ' + this.preis);
+    }
+    this.farbeAusgabe = farbeAusgabe;
+console.log(this);
+
+    // kein return !!
+  }
+
+
+  var oK = new K('rot', 100);
+  var oK2 = new K('blau', 200);
+
+  oK.preis = 150;
+  oK.textFahrrad();
+  oK.farbeAusgabe();
+
+  // Prototype
+  var S = function () {
+    this.x = 1;
+    this.y = 2;
+    this.add = function() { return this.x + this.y}
+  }
+
+  var mathe = new S();
+  mathe.x = 5;
+  console.log(mathe.add());
+
+  S.prototype.multiply = function() {return this.x * this.y;}
+  console.log(mathe.multiply());
+
+  // erweiterung von Array kann nur Nummern speichern
+  Array.prototype.pushOnlyNumber = function( i ) {
+    if ( isFinite( i ) ) this.push(i);
+  }
+
+  // erweiterung von Array mit löschfunktion
+  Array.prototype.delete = function( i ) {
+    this.splice(i, 1);
+  }
+
+  var f = function() {
+    console.log(this);
+  }
+
+  f(); // window
+
+  f.apply( {} ) // objekt
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </script>
+  <style>
+  </style>
+</head>
+<body>
+
+</body>
+</html>

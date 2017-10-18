@@ -6,7 +6,7 @@ var _t = this;
 //var text = $(_t).val();
 return this.each(function() {
 
-
+// $.fn.funktion.apply(this, [parameter]) Möglichkeit immer das gleiche This zu übergeben
 	var begin = 0;
 
 function internNewsticker() {
