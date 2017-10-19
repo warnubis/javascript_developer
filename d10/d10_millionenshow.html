@@ -5,14 +5,129 @@
   <meta charset="utf-8">
   <script src="jquery-3.2.1.min.js"></script>
   <script>
+  ;(function() {
+  	"use strict";
+    var spieler;
+    var level = 0;
+    var fid, aid;
+
+    var starteQuiz = function() {
+      spieler = $('#spielerName').val();
+    $('#start').css('display', 'none');
+    $('#fragen').css('display', 'block');
+    }
+
+    var antwortCheck = function( antwID ){
+      console.log(antwID);
+      $.ajax({
+        url:'http://wifi.1av.at/507/q.php',
+        method:'POST',
+        data: ({
+          'anfrageart': 'überprüfeantwort',
+          'frageid': fid,
+          'antwortid': antwID
+      }),
+        dataType:'json',
+        success: function( responseantwort ) {
+
+          console.log('Json', responseantwort);
+          if (responseantwort.richtigid == antwID){
+            $('button[data-num="'+antwID+'"]').addClass('richtig');
+            level++;
+            setTimeout(weitereFrage(), 10000);
+          }
+          else {
+            $('button[data-num="'+antwID+'"]').addClass('falsch');
+            $('button[data-num="'+responseantwort.richtigid+'"]').addClass('richtig');
+          }
+
+
+        }
+    });
+
+  };
+
+  var weitereFrage = function() {
+    $.ajax({
+      url:'http://wifi.1av.at/507/q.php',
+      method:'POST',
+      data: ({
+        'anfrageart': 'neuefrage',
+        'level': level
+    }),
+      dataType:'json',
+      success: function( responsedata ) {
+        $('#fragen').empty();
+        console.log('Json', responsedata);
+        fid = responsedata.frageid;
+        $('<p>').html(responsedata.frage).appendTo('#fragen');
+        $('<div id="antwortButtons">').appendTo('#fragen');
+
+        for (var i = 0; i < 4; i++){
+          console.log(responsedata.antworten[i]['text']);
+          $('<button>').attr('class','antBut').attr('data-num',responsedata.antworten[i]['antwortid']).html(responsedata.antworten[i]['text']).on('click', function(){
+            antwortCheck($(this).attr('data-num'));
+          }).appendTo('#antwortButtons');
+        };
+
+
+      }
+    });
+
+
+  }
+
+    $( document ).ready(function() {
+
+  $(document).on('click', '#quizStart', function() {
+    starteQuiz();
+    weitereFrage();
+
+
+
+  });
+
+});
+
+}());
 
   </script>
   <style>
-
-  body {background-image: url('quiz.jpg');background-repeat: no-repeat;background-size: cover;}
+  html {height: 100%;}
+  body {background-image: url('quiz.jpg');background-repeat: no-repeat;width: 100%;height:100%;margin:0;background-size: cover;}
+  #fragen {display: none;}
+  #highscore {display: none;}
+  #spielflaeche { position:fixed;top:0;left:0;right:0;bottom:0;z-index:10;background:rgba(0,0,0,0.5);color:#fff;display: flex; justify-content:center;align-items:center;text-align:center;}
+  p {margin:0;}
+  #quizStart {border-radius: 5px;background-color: #000; color:#fff;;border:1px solid #fff;margin-top:5px;padding: 5px 15px;}
+  #antwortButtons {width:400px;height:auto;border:2px solid #fff;border-radius: 5px;}
+  .antBut {width: 150px;
+height: 50px;
+margin: 25px;
+border-radius: 5px;
+border: 2px solid #fff;
+background-color: #000;
+background: rgba(0,0,0,0.5);
+color: #fff;}
+.richtig {border-color: green;}
+.falsch {border-color:red;}
   </style>
 </head>
 <body>
+  <div id="spielflaeche">
+    <div id="spielinterface">
+      <section id="start">
+        <p> Dein Name</p>
+        <input type="text" id="spielerName"><br>
+        <button id="quizStart">Starte Quiz</button>
+      </section>
+      <section id="fragen">
+        <p>Hier kommt die erste Frage</p>
+      </section>
+      <section id ="highscore">
+      </section>
+    </div>
+  </div>
 
 </body>
 </html>
