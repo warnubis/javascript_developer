@@ -1,0 +1,48 @@
+URL: wifi.1av.at/507/q.php
+Request-Methode: POST
+Response-Typ: JSON
+Charset: UTF-8
+
+1. Anfrage: Fragen holen
+REQUEST
+'anfrageart': 'neuefrage' (STRING)
+'level': 0-4 (INTEGER)
+
+RESPONSE
+{
+'frageid': (STRING)
+'frage': (STRING)
+'antworten': [ {
+    antwortid: INTEGER,
+    text: STRING
+  } ] (ARRAY mit Antwort-Objekten)
+}
+
+2. Anfrage: Antwortschicken - Ja/Nein zurücombak
+REQUEST
+'anfrageart': 'überprüfeantwort' (STRING)
+'frageid': (INTEGER)
+'antwortid': (INTEGER)
+
+RESPONSE
+{
+  'richtig': (BOOLEAN)
+  'richtigid': (INTEGER)
+}
+
+3. Anfrage: Name und Highscore senden
+REQUEST
+'anfrageart': 'highscore' (STRING)
+'name': (STRING)
+'punkte': (INTEGER)
+'anzahl': (INTEGER, -1 === alle)
+RESPONSE
+{
+  'bestenliste': [
+  {
+    'name': (STRING),
+    'punkte': (INTEGER)
+  }
+
+  ] (ARRAY aus Einträgen)
+}

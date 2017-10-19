@@ -22,9 +22,10 @@ var platz = 1;
   Fahrrad.prototype.erzeugenSVG = function() {
     var newBike = $('#codeBike').html();
     $('<div class="strecke">').appendTo('body');
+    $('<span class="startlinie">').appendTo('div:last-child');
     this.svg = $(newBike).appendTo('div:last-child')
     .on('click', function() {
-      this.speed++;
+      this.speed= this.speed*2;
       this.fahren();
     }.bind(this));
     $('path',this.svg).attr('fill', this.color); // path in dem erzeugten Code
@@ -39,7 +40,7 @@ this.svg.css('left', this.x += this.speed );
     this.timeOut = setTimeout(this.fahren.bind(this), 100);
 }
 else {
-  $('<span>').html(platz + '. Platz').insertAfter(this.svg);
+  $('<span class="ziellinie">').html(platz + '. Platz').insertAfter(this.svg);
   if (platz == 1)alert('gewonnen');
   platz++;
 
@@ -78,14 +79,20 @@ else {
     border-right: 1px dotted #000;
     height:110px;
   }
-  
+
   svg {
     position: absolute;
   }
 
-  span {float: right;
+  .ziellinie {float: right;
 margin-top: 90px;
 margin-right: 20px;}
+
+.startlinie {float: left;margin-right: -120px;
+
+width: 120px;
+border-right: 1px dotted #000;
+height: 100%;}
   </style>
 </head>
 <body>
