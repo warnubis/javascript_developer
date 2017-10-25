@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<script src="jquery-3.2.1.min.js"></script>
+	<script>
+$.ajaxSetup({
+	url:'http://wifi.1av.at/507/promisetest.php', // number => x
+	type:'POST',
+	dataType:'json'
+});
+
+
+var add1 = function(z) {
+	return new Promise(function(resolve, reject) {
+	$.ajax({
+		data:{number:z},
+		success:function( resp ) {
+			//console.log(resp.x * 1 + 1);
+			resolve(resp.x * 1 + 1);
+		}
+	});
+});
+};
+
+var multiply5 = function(z) {
+	return new Promise(function(resolve, reject) {
+	$.ajax({
+		data:{number:z},
+		success:function( resp ) {
+			//console.log(resp.x * 1 * 5);
+			resolve(resp.x * 1 * 5);
+		}
+	});
+});
+};
+
+var add10 = function(z) {
+	return new Promise(function(resolve, reject) {
+	$.ajax({
+		data:{number:z},
+		success:function( resp ) {
+			//console.log(resp.x * 1 + 10);
+			resolve(resp.x * 1 + 10);
+		}
+	});
+});
+};
+
+var sub2 = function(z) {
+	return new Promise(function(resolve, reject) {
+	$.ajax({
+		data:{number:z},
+		success:function( resp ) {
+			//console.log(resp.x * 1 - 2);
+			resolve(resp.x * 1 - 2);
+		}
+	});
+});
+};
+
+
+//add1( x, function( result ) { y = result;})
+add1(5)
+.then(add1)
+.then(add1)
+.then( alert );
+
+add10(3)
+.then(multiply5)
+.then(sub2)
+.then(add10)
+.then( console.log ); // 73
+
+
+	</script>
+	<style>
+	</style>
+</head>
+<body>
+
+
+</body>
+</html>

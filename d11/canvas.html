@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+  <title>Canvas</title>
+  <meta charset="utf-8">
+  <script src="jquery-3.2.1.min.js"></script>
+  <script>
+
+  $(document).ready(function(){
+
+    var ctx = $('#c').get(0).getContext( '2d' );
+
+    // rgba(0,0,0,0.5) -> transparent
+
+    var zeichneWas = function() {
+
+    }
+
+    ctx.fillStyle = '#e2e2e2';
+    ctx.fillRect(0,0,100,100); // (x, y, width, height) -> Rechteck im Canvas
+
+
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 10;
+    ctx.moveTo(50,150);
+    ctx.lineTo(150,50);
+    ctx.lineTo(150,150);
+    //ctx.lineTo(0,200);
+    ctx.closePath();
+    ctx.stroke();
+    ctx.fillStyle = 'blue';
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(175,175,30,0,2*Math.PI);
+    //ctx.fill();
+    ctx.stroke();
+
+    var verlauf = ctx. createLinearGradient(150,150,200,200);
+    verlauf.addColorStop(0, 'red');
+    verlauf.addColorStop(1, 'Yellow');
+    ctx.fillStyle = verlauf;
+    ctx.fill();
+
+    ctx.font = '30px Arial';
+    //ctx.fillText( 'Hallo Welt', 50,50); // zeichnen
+    ctx.lineWidth = 1;
+    ctx.strokeText( 'Hallo Welt', 50,50); // linien
+
+    $('#c').on('click', function() {
+      var ctx = $('#c').get(0).getContext( '2d' );
+      ctx.clearRect(0,0,200,200);
+      ctx.beginPath();
+      ctx.strokeStyle = '#000';
+      ctx.lineWidth = 10;
+      ctx.moveTo(50,150);
+      ctx.lineTo(150,50);
+      ctx.lineTo(150,150);
+      //ctx.lineTo(0,200);
+      ctx.closePath();
+      ctx.stroke();
+      ctx.fillStyle = 'blue';
+      ctx.fill();
+    });
+
+  });
+
+  </script>
+  <style>
+  canvas {border: 1px solid #000;}
+  </style>
+</head>
+<body>
+
+  <canvas id="c" width="200" height="200"></canvas>
+
+</body>
+</html>

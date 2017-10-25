@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <script src="jquery-3.2.1.min.js"></script>
+  <script>
+  $(document).ready(function(){
+    var clicked = 0;
+    var clickedC = 0;
+    var ctx = $('#checkbox').get(0).getContext( '2d' );
+    var ctc = $('#circle').get(0).getContext( '2d' );
+
+    var checkBox = function() {
+      ctx.beginPath();
+      ctx.strokeStyle = '#000';
+      ctx.lineWidth = 1;
+      ctx.moveTo(0,0);
+      ctx.lineTo(100,0);
+      ctx.lineTo(100,100);
+      ctx.lineTo(0,100);
+      ctx.closePath();
+      ctx.stroke();
+      //ctx.translate(0.5,0.5);
+      ctx.beginPath();
+      ctx.lineWidth = 3;
+      ctx.moveTo(5,5);
+      ctx.lineTo(95,5);
+      ctx.lineTo(95,95);
+      ctx.lineTo(5,95);
+      ctx.closePath();
+      ctx.stroke();
+    }
+
+    var cross = function() {
+
+      //var ctx = $('#checkbox').get(0).getContext( '2d' );
+      ctx.beginPath();
+      ctx.strokeStyle = 'red';
+      ctx.lineWidth = 10;
+      ctx.moveTo(20,20);
+      ctx.lineTo(80,80);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.strokeStyle = 'red';
+      ctx.lineWidth = 10;
+      ctx.moveTo(20,80);
+      ctx.lineTo(80,20);
+      ctx.stroke();
+    }
+
+    var drawCircle = function() {
+      var ctc = $('#circle').get(0).getContext( '2d' );
+      ctc.beginPath();
+      ctc.strokeStyle = '#000';
+      ctc.arc(50,50,48,0,2*Math.PI);
+      ctc.lineWidth = 1;
+      ctc.stroke();
+      ctc.beginPath();
+      ctc.lineWidth = 3;
+      ctc.arc(50,50,40,0,2*Math.PI);
+      ctc.stroke();
+    }
+
+
+
+
+    var dot = function() {
+      var ctc = $('#circle').get(0).getContext( '2d' );
+      ctc.beginPath();
+      ctc.arc(50,50, 35,0,2*Math.PI);
+      ctc.fillStyle = 'red';
+      ctc.lineWidth = 0;
+      ctc.strokeStyle = 'red';
+      ctc.fill();
+      ctc.stroke();
+
+
+    }
+
+
+
+  checkBox();
+  drawCircle();
+
+
+  $('#checkbox').on('click', function(){
+    if(clicked == 0){
+      ctx.clearRect(0,0,100,100);
+    checkBox();
+    cross();
+    clicked = 1;
+    }
+    else {
+      ctx.clearRect(0,0,100,100);
+    checkBox();
+    clicked = 0;
+    }
+
+  });
+
+  $('#circle').on('click', function(){
+    if(clickedC == 0){
+      ctc.clearRect(0,0,100,100);
+    drawCircle();
+    dot();
+    clickedC = 1;
+    }
+    else {
+      ctc.clearRect(0,0,100,100);
+    drawCircle();
+    clickedC = 0;
+    }
+
+  });
+});
+  </script>
+  <style>
+  </style>
+</head>
+<body>
+<canvas id="checkbox" width="100" height="100"></canvas>
+<canvas id="circle" width="100" height="100"></canvas>
+<div id="circles"></div>
+<!-- <input type="checkbox" id="abc">HAHA<label for="abc"
+flaticon.com-->
+
+</body>
+</html>
