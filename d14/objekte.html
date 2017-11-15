@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <script src="jquery-3.2.1.min.js"></script>
+  <script>
+
+  var o1 = {};
+  var o2 = new Object();
+  var o3 = Object.create( {} );
+  var o4 = Object.create( Object.prototype );
+
+  console.log(o1,o2,o3,o4);
+  console.log(o4.toString());
+
+  var o5 = Object.create( null );
+  o5.a = 1;
+  o5.b=2;
+  console.log(o5);
+
+  var o6 = Object.create(o5);
+  console.log(o5, o6);
+
+  </script>
+  <style>
+  </style>
+</head>
+<body>
+
+</body>
+</html>

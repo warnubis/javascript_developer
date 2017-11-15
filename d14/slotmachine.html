@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <script src="jquery-3.2.1.min.js"></script>
+  <script>
+
+//requestAnimationFrame(Callback)
+
+$(document).ready(function(){
+var xCount = 0, yCount = 0;
+
+  var spinSlotdown = function(speed) {
+var x = 0, y = 0;
+
+var spinning = setInterval(function(){
+  x -= 68;
+  if (x == -408 && y==0){
+    x=0;y=200;
+  }
+  else if (x == -408 && y==200){
+    x=0;y=0;
+  }
+
+var newPos = x + 'px ' + y + 'px';
+    console.log(newPos);
+    $(this).css('background-position', newPos);
+
+}.bind(this), speed[0]);
+
+setTimeout(function() {
+  clearInterval(spinning);
+  console.log(speed[0]);
+
+} , 3000);
+  }
+
+  $('.sprites').on('swipedown', function() {
+    diff = (timeEnd - timeStart)*0.2;
+    spinSlotdown.call(this, [diff]);
+  });
+
+  var startX = 0, diff=0, timeStart, timeEnd;
+
+  $('i').on( 'touchstart', function(e){
+    timeStart = Date.now();
+    startX = e.originalEvent.targetTouches[0].clientY;
+    console.log('touch start');
+  });
+
+  $('i').on('touchend', function(e){
+    timeEnd = Date.now();
+    if(startX - e.originalEvent.changedTouches[0].clientY > 50){
+
+      $(this).trigger('swipeup');
+    };
+    if(startX - e.originalEvent.changedTouches[0].clientY < -50){
+      diff = startX - e.originalEvent.changedTouches[0].clientY;
+      $(this).trigger('swipedown');
+    };
+    console.log('touch end');
+  });
+
+
+
+});
+
+
+
+  </script>
+  <style>
+  .sprites {
+    display:inline-block;
+    width:68px;
+    height:200px;
+    background-image:url('av/reelSpin-480x400.png');
+    background-position:0 0;
+  }
+  .sprites:hoverr {
+    background-position: -68px 0;
+  }
+
+  </style>
+</head>
+<body>
+  <i class="sprites" id="sp1"></i>
+  <i class="sprites"></i>
+  <i class="sprites"></i>
+</body>
+</html>
